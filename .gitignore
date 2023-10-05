@@ -1,0 +1,9 @@
+# virtual environment
+venv/
+
+# Secrets
+.env
+.streamlit/secrets.toml
+
+# test files
+*.ipynb
