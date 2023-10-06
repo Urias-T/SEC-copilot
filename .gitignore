@@ -7,3 +7,6 @@ venv/
 
 # test files
 *.ipynb
+
+# cache
+__pycache__/
