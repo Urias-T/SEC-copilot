@@ -9,7 +9,7 @@ st.title("SEC Copilot 🤖")
 
 ss = st.session_state
 
-github_url = "https://github.com/Urias-T"
+github_url = "https://github.com/Urias-T/SEC-copilot"
 twitter_url = "https://twitter.com/mista_triumph"
 linkedin_url = "https://www.linkedin.com/in/triumph-urias/"
 
@@ -120,7 +120,7 @@ if "configurations" in ss:
 with st.sidebar:
     with st.sidebar.expander("📬 Contact"):
 
-        st.write("**GitHub:**", f"[Urias-T]({github_url})")
+        st.write("**GitHub:**", f"[Urias-T/SEC-copilot]({github_url})")
         st.write("**Twitter:**", f"[@mista_triumph]({twitter_url})")
         st.write("**LinkedIn:**", f"{linkedin_url}")
         st.write("**Created by Triumph Urias**")
