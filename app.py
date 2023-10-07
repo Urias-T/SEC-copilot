@@ -73,22 +73,41 @@ if "configurations" in ss:
         with st.chat_message("user"):
             st.write(query)
 
+    buttons = []
+    placeholders = []
 
-    button_placeholder = st.empty()
+    button_info = [
+        {"label": "What are the patterns in Nvidia's spend over the past three quarters?", "query": "What are the patterns in Nvidia's spend over the past three quarters?"},
+        {"label": "Compare the spending patterns of Nvidia and Tesla over the past three quarters.", "query": "Compare the spending patterns of Nvidia and Tesla over the past three quarters."},
+        {"label": "Show me the financial statment for Amazon.", "query": "Show me the financial statment for Amazon."}
+    ]
+
+    for info in button_info:
+        button_placeholder = st.empty()
+        buttons.append({"placeholder": button_placeholder, "label": info["label"], "query": info["query"]})
 
     if len(ss.messages) == 1:
-        if button_placeholder.button("What are the patterns in Nvidia's spend over the past three quarters?"):
-            query = "What are the patterns in Nvidia's spend over the past three quarters?"
-            ss.messages.append({"role": "user", "message": query})
+        button_clicked = False
+        for button in buttons:
+            if button["placeholder"].button(button["label"]):
+                query = button["query"]
+                ss.messages.append({"role": "user", "message": button["query"]})
 
-            with st.chat_message("user"):
-                st.write(query)
-            
-            button_placeholder.empty()
+                with st.chat_message("user"):
+                    st.write(query)
+                
+                button_clicked = True
+
+        if button_clicked:
+            for button in buttons:
+                button["placeholder"].empty()
 
     if ss.messages[-1]["role"] != "co-pilot":
         with st.chat_message("Co-pilot"):
             with st.spinner("Thinking..."):
+                print(query)
+                print(ss.configurations)
+                print(ss.chat_history)
                 answer, chat_history = get_response(query, ss.configurations, ss.chat_history)
 
                 placeholder = st.empty()
@@ -101,11 +120,11 @@ if "configurations" in ss:
                 ss.chat_history = chat_history
                 ss.messages.append({"role": "co-pilot", "message": full_answer})
 
+with st.sidebar:
+    with st.sidebar.expander("📬 Contact"):
 
-with st.sidebar.expander("📬 Contact"):
-
-    st.write("**GitHub:**", f"[Urias-T]({github_url})")
-    st.write("**Twitter:**", f"[@mista_triumph]({twitter_url})")
-    st.write("**LinkedIn:**", f"{linkedin_url}")
-    st.write("**Created by Triumph Urias**")
+        st.write("**GitHub:**", f"[Urias-T]({github_url})")
+        st.write("**Twitter:**", f"[@mista_triumph]({twitter_url})")
+        st.write("**LinkedIn:**", f"{linkedin_url}")
+        st.write("**Created by Triumph Urias**")
 
