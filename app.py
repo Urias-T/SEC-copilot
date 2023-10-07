@@ -105,9 +105,6 @@ if "configurations" in ss:
     if ss.messages[-1]["role"] != "co-pilot":
         with st.chat_message("Co-pilot"):
             with st.spinner("Thinking..."):
-                print(query)
-                print(ss.configurations)
-                print(ss.chat_history)
                 answer, chat_history = get_response(query, ss.configurations, ss.chat_history)
 
                 placeholder = st.empty()
