@@ -5,6 +5,8 @@ from copilot import get_response
 
 st.set_page_config(page_title="SEC Copilot 🤖")
 
+st.title("SEC Copilot 🤖")
+
 ss = st.session_state
 
 github_url = "https://github.com/Urias-T"
@@ -51,12 +53,14 @@ if "configurations" in ss:
 
     if "messages" not in ss:
         ss.chat_history = []
-        ss.messages = [{"role": "co-pilot", "message": "Hi, ask me any question about a company's SEC fillings."}]
+        ss.messages = [{"role": "co-pilot", "message": "Hi, ask me any question about a company's SEC fillings. \
+                            You could also choose from any of these sample questions:"}]
 
     if "messages" in ss:
         def clear_chat_history():
             ss.chat_history = []
-            st.session_state.messages = [{"role": "co-pilot", "message": "Hi, ask me any question about a company's SEC fillings."}]
+            ss.messages = [{"role": "co-pilot", "message": "Hi, ask me any question about a company's SEC fillings. \
+                            You could also choose from any of these sample questions:"}]
         st.sidebar.button('Clear Chat History', on_click=clear_chat_history)
 
     for message in ss.messages:
@@ -68,6 +72,19 @@ if "configurations" in ss:
 
         with st.chat_message("user"):
             st.write(query)
+
+
+    button_placeholder = st.empty()
+
+    if len(ss.messages) == 1:
+        if button_placeholder.button("What are the patterns in Nvidia's spend over the past three quarters?"):
+            query = "What are the patterns in Nvidia's spend over the past three quarters?"
+            ss.messages.append({"role": "user", "message": query})
+
+            with st.chat_message("user"):
+                st.write(query)
+            
+            button_placeholder.empty()
 
     if ss.messages[-1]["role"] != "co-pilot":
         with st.chat_message("Co-pilot"):
