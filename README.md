@@ -3,7 +3,7 @@ An AI copilot allowing users ask natural language questions and get answers abou
 
 To use this app, you would need API keys from [OpenAI](https://help.openai.com/en/articles/4936850-where-do-i-find-my-secret-api-key) and [Kay](https://kay.ai/)
 
-## Architecture
+## Architecture ⚙️
 
 ![image](https://github.com/Urias-T/SEC-copilot/assets/51706516/b9a68c09-d622-46d1-ae84-25cbd9aac2a3)
 
@@ -51,3 +51,7 @@ That's it! The service is now up and running locally. 🤗
 
 ## Contributing 🙌🏽
 If you want to contribute to this project, please open an issue and submit a pull request.
+
+
+## Caveat ⚖️
+Triumph Urias and/ or any of the contributors to this project as well as his and their associates are not liable for any financial decisions made based on information gotten in it's use. All information gotten in the use of this tool is to be re-evaluated carefully if financial decisions are to be made consequent to them.  
