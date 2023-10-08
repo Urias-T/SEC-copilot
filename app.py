@@ -123,5 +123,6 @@ with st.sidebar:
         st.write("**GitHub:**", f"[Urias-T/SEC-copilot]({github_url})")
         st.write("**Twitter:**", f"[@mista_triumph]({twitter_url})")
         st.write("**LinkedIn:**", f"{linkedin_url}")
+        st.write("**Mail:**", "triumphurias@outlook.com")
         st.write("**Created by Triumph Urias**")
 
