@@ -53,5 +53,5 @@ That's it! The service is now up and running locally. 🤗
 If you want to contribute to this project, please open an issue and submit a pull request.
 
 
-## Caveat ⚖️
-Triumph Urias and/ or any of the contributors to this project as well as his and their associates are not liable for any financial decisions made based on information gotten in it's use. All information gotten in the use of this tool is to be re-evaluated carefully if financial decisions are to be made consequent to them.  
+## License ⚖️
+This project is made available under the [MIT license](https://github.com/Urias-T/SEC-copilot/blob/main/LICENSE). 
