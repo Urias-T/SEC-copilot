@@ -54,4 +54,4 @@ If you want to contribute to this project, please open an issue and submit a pul
 
 
 ## License ⚖️
-This project is made available under the [MIT license](https://github.com/Urias-T/SEC-copilot/blob/main/LICENSE). 
+This project is made available under the [MIT License](https://github.com/Urias-T/SEC-copilot/blob/main/LICENSE). 
