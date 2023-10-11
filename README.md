@@ -1,4 +1,7 @@
 # SEC-copilot 🤖
+
+[Demo](https://www.loom.com/share/a3595d3042414380ba1bd193f4ca0b49?sid=4c441f24-8fea-48ee-b7d3-c4f14685f80b)
+
 An AI copilot allowing users ask natural language questions and get answers about SEC fillings of their choice companies | using Langchain🦜 | OpenAI | Streamlit ⚡| Kay 
 
 To use this app, you would need API keys from [OpenAI](https://help.openai.com/en/articles/4936850-where-do-i-find-my-secret-api-key) and [Kay](https://kay.ai/)
