@@ -57,11 +57,10 @@ if not openai_api_key and not kay_api_key:
 if ("OPENAI_API_KEY" in os.environ) and ("KAY_API_KEY" in os.environ):
     logging.info("Found OpenAI and KAY_API_KEY in environment variables.")
 
-
-ss.configurations = {
-    "openai_api_key": openai_api_key,
-    "kay_api_key": kay_api_key
-}
+    ss.configurations = {
+        "openai_api_key": openai_api_key,
+        "kay_api_key": kay_api_key
+    }
 
 info_placeholder = st.empty()
 info_placeholder.text("Enter valid API keys before you can use the app.")
