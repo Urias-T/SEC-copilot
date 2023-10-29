@@ -1,0 +1,14 @@
+# Secrets
+*.env
+*.streamlit/secrets.toml
+
+# test files
+*.ipynb
+
+# virtual environment
+venv/
+
+# cache
+__pycache__/
+
+LICENSE
