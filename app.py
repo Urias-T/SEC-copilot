@@ -1,7 +1,10 @@
+import os
+import logging
 import streamlit as st
 
 from copilot import get_response
 
+logging.basicConfig(level=logging.INFO)
 
 st.set_page_config(page_title="SEC Copilot 🤖")
 
@@ -13,37 +16,51 @@ github_url = "https://github.com/Urias-T/SEC-copilot"
 twitter_url = "https://twitter.com/mista_triumph"
 linkedin_url = "https://www.linkedin.com/in/triumph-urias/"
 
-with st.sidebar:
-    with st.form("config"):
-        st.header("Configuration")
 
-        openai_api_key = st.text_input("Enter your OpenAI API key:", placeholder="sk-xxx", type="password")
-        kay_api_key = st.text_input("Enter your Kay API key:", type="password")
+openai_api_key = os.environ.get("OPENAI_API_KEY")
+kay_api_key = os.environ.get("KAY_API_KEY")
 
-        st.markdown("Get your OpenAI API key [here](https://help.openai.com/en/articles/4936850-where-do-i-find-my-secret-api-key)")
-        st.markdown("Get your KAY API key [here](https://kay.ai/)")
 
-        st.sidebar.markdown(" ")
+if not openai_api_key and not kay_api_key:
+    logging.info("Did not find OpenAI and KayAI API keys in environment variables.")
+    with st.sidebar:
+        with st.form("config"):
+            st.header("Configuration")
 
-        st.sidebar.markdown("-------------------")
+            openai_api_key = st.text_input("Enter your OpenAI API key:", placeholder="sk-xxx", type="password")
+            kay_api_key = st.text_input("Enter your Kay API key:", type="password")
 
-        st.sidebar.markdown(" ")
+            st.markdown("Get your OpenAI API key [here](https://help.openai.com/en/articles/4936850-where-do-i-find-my-secret-api-key)")
+            st.markdown("Get your KAY API key [here](https://kay.ai/)")
 
-        if st.form_submit_button("Submit"):
-            if not (openai_api_key.startswith("sk-") and len(openai_api_key)==51):
-                st.warning("The OpenAI API key you've entered is invalid!", icon="⚠️")
-                validated = False
-            else:
-                st.success("Proceed to enter your query!", icon="👉")
-                validated = True
+            st.sidebar.markdown(" ")
 
-            if validated:
-                ss.configurations = {
-                    "openai_api_key": openai_api_key,
-                    "kay_api_key": kay_api_key
-                }
-    
+            st.sidebar.markdown("-------------------")
 
+            st.sidebar.markdown(" ")
+
+            if st.form_submit_button("Submit"):
+                if not (openai_api_key.startswith("sk-") and len(openai_api_key)==51):
+                    st.warning("The OpenAI API key you've entered is invalid!", icon="⚠️")
+                    validated = False
+                else:
+                    st.success("Proceed to enter your query!", icon="👉")
+                    validated = True
+
+                if validated:
+                    ss.configurations = {
+                        "openai_api_key": openai_api_key,
+                        "kay_api_key": kay_api_key
+                    }
+
+
+if ("OPENAI_API_KEY" in os.environ) and ("KAY_API_KEY" in os.environ):
+    logging.info("Found OpenAI and KAY_API_KEY in environment variables.")
+
+    ss.configurations = {
+        "openai_api_key": openai_api_key,
+        "kay_api_key": kay_api_key
+    }
 
 info_placeholder = st.empty()
 info_placeholder.text("Enter valid API keys before you can use the app.")
