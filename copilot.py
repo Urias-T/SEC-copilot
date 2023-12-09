@@ -2,8 +2,8 @@ import os
 
 # For debugging and local experimentation
 
-import langchain
-langchain.debug=True
+# import langchain
+# langchain.debug=True
 
 import yfinance as yf
 
