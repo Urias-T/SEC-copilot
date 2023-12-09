@@ -70,13 +70,13 @@ if "configurations" in ss:
 
     if "messages" not in ss:
         ss.chat_history = []
-        ss.messages = [{"role": "co-pilot", "message": "Hi, ask me any question about a company's SEC fillings. \
+        ss.messages = [{"role": "co-pilot", "message": "Hi, ask me any question about a company's SEC fillings or stock prices. \
                             You could also choose from any of these sample questions:"}]
 
     if "messages" in ss:
         def clear_chat_history():
             ss.chat_history = []
-            ss.messages = [{"role": "co-pilot", "message": "Hi, ask me any question about a company's SEC fillings. \
+            ss.messages = [{"role": "co-pilot", "message": "Hi, ask me any question about a company's SEC fillings or stock prices. \
                             You could also choose from any of these sample questions:"}]
         st.sidebar.button('Clear Chat History', on_click=clear_chat_history)
 
@@ -95,8 +95,8 @@ if "configurations" in ss:
 
     button_info = [
         {"label": "What are the patterns in Nvidia's spend over the past three quarters?", "query": "What are the patterns in Nvidia's spend over the past three quarters?"},
-        {"label": "Compare the spending patterns of Nvidia and Tesla over the past three quarters.", "query": "Compare the spending patterns of Nvidia and Tesla over the past three quarters."},
-        {"label": "Show me the financial statment for Amazon.", "query": "Show me the financial statment for Amazon."}
+        {"label": "Show me the financial statment for Amazon.", "query": "Show me the financial statment for Amazon."},
+        {"label": "What is Tesla's current stock price?", "query": "What is Tesla's current stock price?"}
     ]
 
     for info in button_info:
@@ -137,9 +137,10 @@ if "configurations" in ss:
 with st.sidebar:
     with st.sidebar.expander("📬 Contact"):
 
+        st.write("**Website:**", "[triumphurias.com](https://triumphurias.com)")
         st.write("**GitHub:**", f"[Urias-T/SEC-copilot]({github_url})")
         st.write("**Twitter:**", f"[@mista_triumph]({twitter_url})")
         st.write("**LinkedIn:**", f"{linkedin_url}")
-        st.write("**Mail:**", "triumphurias@outlook.com")
+        st.write("**Mail:**", "triumph@triumphurias.com")
         st.write("**Created by Triumph Urias**")
 
