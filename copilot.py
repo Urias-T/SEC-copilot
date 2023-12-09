@@ -56,7 +56,8 @@ def get_response(query, configurations, chat_history):
         llm=model,
         max_iterations=3,
         early_stopping_method="generate",
-        memory=memory
+        memory=memory,
+        handle_parsing_errors=True
     )
 
     result = agent(query)
