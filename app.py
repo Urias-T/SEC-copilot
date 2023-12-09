@@ -137,7 +137,7 @@ if "configurations" in ss:
 with st.sidebar:
     with st.sidebar.expander("📬 Contact"):
 
-        st.write("**Website:**", "triumphurias.com")
+        st.write("**Website:**", "[triumphurias.com](https://triumphurias.com)")
         st.write("**GitHub:**", f"[Urias-T/SEC-copilot]({github_url})")
         st.write("**Twitter:**", f"[@mista_triumph]({twitter_url})")
         st.write("**LinkedIn:**", f"{linkedin_url}")
