@@ -2,8 +2,8 @@ import os
 
 # For debugging and local experimentation
 
-# import langchain
-# langchain.debug=True
+import langchain
+langchain.debug=True
 
 import yfinance as yf
 
@@ -56,7 +56,8 @@ def get_response(query, configurations, chat_history):
         llm=model,
         max_iterations=3,
         early_stopping_method="generate",
-        memory=memory
+        memory=memory,
+        handle_parsing_errors=True
     )
 
     result = agent(query)
