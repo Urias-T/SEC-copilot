@@ -2,8 +2,8 @@ import os
 
 # For debugging and local experimentation
 
-import langchain
-langchain.debug=True
+# import langchain
+# langchain.debug=True
 
 import yfinance as yf
 
@@ -16,11 +16,20 @@ from langchain.retrievers import KayAiRetriever
 from langchain.tools import tool
 from langchain.agents import Tool, initialize_agent
 
-from utils import create_memory
+from memory import create_memory
 
 
 class CurrentStockPriceInput(BaseModel):
     symbol: str = Field(..., description="The ticker symbol for the company whose stock price is to be checked.")
+
+
+@tool(args_schema=CurrentStockPriceInput)
+def get_current_stock_price(symbol: str) -> str:
+    """Call this function to get the current stock price of a company."""
+    stock_info = yf.Ticker(symbol)
+    current_price = stock_info.info["currentPrice"]
+
+    return f"The current price is USD {current_price}"
 
 
 def get_response(query, configurations, chat_history):
@@ -33,17 +42,8 @@ def get_response(query, configurations, chat_history):
 
     memory = create_memory(chat_history=chat_history)
 
-    @tool(args_schema=CurrentStockPriceInput)
-    def get_current_stock_price(symbol: str) -> str:
-        """Call this function to get the current stock price of a company."""
-        info = yf.Ticker(symbol)
-        current_price = info.info["currentPrice"]
-
-        return f"The current price is USD {current_price}"
-    
-
     retrieval_tool = Tool(
-        name="Kay AI Vector Stor",
+        name="Kay AI Vector Store",
         func=qa.run,
         description=("Use this tool when answering questions that relate to a company's SEC filings.")
     )
