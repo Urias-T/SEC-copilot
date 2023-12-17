@@ -2,13 +2,7 @@ import os
 import logging
 import streamlit as st
 
-# from dotenv import load_dotenv
-# load_dotenv()
-
-
-
 from copilot import get_response
-from sound import listen
 
 logging.basicConfig(level=logging.INFO)
 
@@ -124,17 +118,6 @@ if "configurations" in ss:
         if button_clicked:
             for button in buttons:
                 button["placeholder"].empty()
-
-    if st.button("Speak"):
-        with st.spinner("Listening..."):
-            for button in buttons:
-                button["placeholder"].empty()
-            query = listen()
-            # print("And this is the query:", query)
-        ss.messages.append({"role": "user", "message": query})
-
-        with st.chat_message("user"):
-            st.write(query)
 
     if ss.messages[-1]["role"] != "co-pilot":
         with st.chat_message("Co-pilot"):
