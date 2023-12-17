@@ -21,7 +21,7 @@ openai_api_key = os.environ.get("OPENAI_API_KEY")
 kay_api_key = os.environ.get("KAY_API_KEY")
 
 
-if not openai_api_key and not kay_api_key:
+if not openai_api_key or not kay_api_key:
     logging.info("Did not find OpenAI and KayAI API keys in environment variables.")
     with st.sidebar:
         with st.form("config"):
