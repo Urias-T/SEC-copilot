@@ -60,13 +60,11 @@ peewee==3.17.0
 pickleshare==0.7.5
 Pillow==10.0.1
 platformdirs==3.11.0
-portaudio==19.7.0
 prompt-toolkit==3.0.39
 protobuf==4.24.4
 psutil==5.9.5
 pure-eval==0.2.2
 pyarrow==13.0.0
-PyAudio==0.2.14
 pydantic==2.4.2
 pydantic_core==2.10.1
 pydeck==0.8.1b0
