@@ -1,9 +1,12 @@
 import os
+import requests
 
 # For debugging and local experimentation
 
-# import langchain
-# langchain.debug=True
+import langchain
+langchain.debug=True
+
+from prompts import prompt
 
 import yfinance as yf
 
@@ -12,15 +15,23 @@ from pydantic.v1 import BaseModel, Field
 from langchain.chat_models import ChatOpenAI
 from langchain.chains import RetrievalQA
 from langchain.retrievers import KayAiRetriever
+from langchain.schema.runnable import RunnableMap
+from langchain.schema.output_parser import StrOutputParser
 
 from langchain.tools import tool
 from langchain.agents import Tool, initialize_agent
 
 from memory import create_memory
 
+# CONFIGURATIONS = {"OPENAI_API_KEY": "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",
+#                 "KAY_API_KEY": "CsQfkj6vje"}
 
 class CurrentStockPriceInput(BaseModel):
     symbol: str = Field(..., description="The ticker symbol for the company whose stock price is to be checked.")
+
+
+# class RetrieverInput(BaseModel):
+#     query: str = Field(..., description="The user's query.")
 
 
 @tool(args_schema=CurrentStockPriceInput)
@@ -32,20 +43,103 @@ def get_current_stock_price(symbol: str) -> str:
     return f"The current price is USD {current_price}"
 
 
+# @tool(args_schema=RetrieverInput)
+# def retrieve_documents(query: str, configurations=CONFIGURATIONS) -> str:
+#     """Call this function to get answers based on a company's SEC fillings and financials."""
+#     model = ChatOpenAI(model="gpt-3.5-turbo-16k", openai_api_key=configurations["openai_api_key"])
+    
+#     dataset_config = {
+#         "dataset_id": "company",
+#         "data_types": ["10-K", "10-Q"]
+#     }
+
+#     retrieval_config = {
+#         "num_context": 6
+#     }
+
+#     url = "https://api.kay.ai/retrieve"
+
+#     headers = {"API-KEY": configurations["kay_api_key"]}
+
+#     payload = {
+#         "query": query,
+#         "dataset_config": dataset_config,
+#         "retrieval_config": retrieval_config
+#     }
+
+#     response = requests.post(url, headers=headers, json=payload)
+
+#     context_list = response.json()["contexts"]
+
+#     texts = []
+
+#     for i in range(0, len(context_list)):
+#         text = context_list[i]["chunk_embed_text"]
+#         texts.append(text)
+
+#     chain = RunnableMap({
+#         "question": lambda x: x["question"],
+#         "context": lambda x: x["context"]
+#     }) | prompt | model | StrOutputParser()
+
+#     answer = chain.invoke({"question": query,
+#                         "context": texts})
+    
+#     return answer
+
+
 def get_response(query, configurations, chat_history):
 
-    os.environ["KAY_API_KEY"] = configurations["kay_api_key"]
-
     model = ChatOpenAI(model="gpt-3.5-turbo-16k", openai_api_key=configurations["openai_api_key"])
-    retriever = KayAiRetriever.create(dataset_id="company", data_types=["10-K", "10-Q"], num_contexts=6)
-    qa = RetrievalQA.from_chain_type(llm=model, chain_type="stuff", retriever=retriever)
+    
+    def retriever(query):
+        dataset_config = {
+            "dataset_id": "company",
+            "data_types": ["10-K", "10-Q"]
+        }
+
+        retrieval_config = {
+            "num_context": 6
+        }
+
+        url = "https://api.kay.ai/retrieve"
+
+        headers = {"API-KEY": configurations["kay_api_key"]}
+
+        payload = {
+            "query": query,
+            "dataset_config": dataset_config,
+            "retrieval_config": retrieval_config
+        }
+
+        response = requests.post(url, headers=headers, json=payload)
+
+        context_list = response.json()["contexts"]
+
+        texts = []
+
+        for i in range(0, len(context_list)):
+            text = context_list[i]["chunk_embed_text"]
+            texts.append(text)
+
+        chain = RunnableMap({
+            "question": lambda x: x["question"],
+            "context": lambda x: x["context"]
+        }) | prompt | model | StrOutputParser()
+
+        answer = chain.invoke({"question": query,
+                                "context": texts})
+        
+        return answer
+
 
     memory = create_memory(chat_history=chat_history)
 
     retrieval_tool = Tool(
         name="Kay AI Vector Store",
-        func=qa.run,
-        description=("Use this tool when answering questions that relate to a company's SEC filings.")
+        func=retriever,
+        description=("Use this tool when answering questions that relate to a company's SEC filings and financials."),
+        return_direct=True
     )
 
     tools = [get_current_stock_price, retrieval_tool]
