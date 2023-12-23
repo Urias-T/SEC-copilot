@@ -12,9 +12,20 @@ import yfinance as yf
 
 from pydantic.v1 import BaseModel, Field
 
+# For debugging and local experimentation
+
+# import langchain
+# langchain.debug=True
+
+import yfinance as yf
+
+from pydantic.v1 import BaseModel, Field
+
 from langchain.chat_models import ChatOpenAI
+
 from langchain.schema.runnable import RunnableMap
 from langchain.schema.output_parser import StrOutputParser
+
 
 from langchain.tools import tool
 from langchain.agents import Tool, initialize_agent
@@ -84,6 +95,7 @@ def get_response(query, configurations, chat_history):
 
     retrieval_tool = Tool(
         name="Kay AI Vector Store",
+
         func=retriever,
         description=("Use this tool when answering questions that relate to a company's SEC filings and financials."),
         return_direct=True
