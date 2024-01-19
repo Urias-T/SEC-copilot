@@ -1,4 +1,3 @@
-import os
 import requests
 
 # For debugging and local experimentation
@@ -6,22 +5,22 @@ import requests
 # import langchain
 # langchain.debug=True
 
-from prompts import prompt
+from prompts import prompt, react_prompt
 
 import yfinance as yf
 
 from pydantic.v1 import BaseModel, Field
 
-from langchain.chat_models import ChatOpenAI
+from langchain_openai import ChatOpenAI
 
-from langchain.schema.runnable import RunnableMap
-from langchain.schema.output_parser import StrOutputParser
+from langchain_core.runnables import RunnableParallel
+from langchain_core.output_parsers import StrOutputParser
 
 
 from langchain.tools import tool
-from langchain.agents import Tool, initialize_agent
+from langchain.agents import Tool, create_react_agent, AgentExecutor
 
-from memory import create_memory
+from memory import create_react_agent_memory
 
 
 class CurrentStockPriceInput(BaseModel):
@@ -71,7 +70,8 @@ def get_response(query, configurations, chat_history):
             text = context_list[i]["chunk_embed_text"]
             texts.append(text)
 
-        chain = RunnableMap({
+
+        chain = RunnableParallel({
             "question": lambda x: x["question"],
             "context": lambda x: x["context"]
         }) | prompt | model | StrOutputParser()
@@ -82,29 +82,33 @@ def get_response(query, configurations, chat_history):
         return answer
 
 
-    memory = create_memory(chat_history=chat_history)
+    memory = create_react_agent_memory(chat_history=chat_history)
 
     retrieval_tool = Tool(
         name="Kay AI Vector Store",
         func=retriever,
-        description=("Use this tool when answering questions that relate to a company's SEC filings and financials."),
+        description=("Use this tool when answering questions that relate to a company's SEC filings, financials and/ or spending patterns."),
         return_direct=True
     )
 
     tools = [get_current_stock_price, retrieval_tool]
 
-    agent = initialize_agent(
-        agent="chat-conversational-react-description",
-        tools=tools,
+    agent = create_react_agent(
         llm=model,
-        max_iterations=3,
-        early_stopping_method="generate",
-        memory=memory,
-        handle_parsing_errors=True
+        tools=tools,
+        prompt=react_prompt
     )
 
-    result = agent(query)
+    agent_executor = AgentExecutor(agent=agent, tools=tools, handle_parsing_errors=True)
 
-    chat_history.append((query, result["output"]))
+    final_output = agent_executor.invoke(
+                                            {
+                                                "input": query,
+                                                "chat_history": memory
+                                            }
+                                        )
 
-    return result["output"], chat_history
+    chat_history.append((query, final_output["output"]))
+
+    return final_output["output"], chat_history
+
