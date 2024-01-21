@@ -51,6 +51,11 @@ def handle_kay_errors(status_code: str):
 
 def get_response(query, configurations, chat_history):
 
+    if "error_message" in ss:
+        del ss["error_message"]
+        query = ss.messages[-1]["message"]
+
+
     model = ChatOpenAI(model="gpt-3.5-turbo-16k", openai_api_key=configurations["openai_api_key"])
     
     def retriever(query):
