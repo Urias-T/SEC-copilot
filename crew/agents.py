@@ -2,7 +2,7 @@ import os
 
 from crewai import Agent
 
-from tools import retrieval_tool, search_tool
+from tools import retrieval_tool, search_tool, get_current_stock_price
 
 from langchain_openai import ChatOpenAI
 
@@ -21,8 +21,18 @@ class InvestmentAgents():
             role="News Research Expert",
             goal="Find most recent news headlines that can affect investment decisions.",
             backstory="""An expert news analyst. Your expertise lies in getting relevant 
-            news articles from the internet on a specific company. Also get the current stock price.""",
+            news articles from the internet on a specific company.""",
             tools=[search_tool],
+            llm=model,
+            verbose=True
+        )
+
+    def market_trader(self):
+        return Agent(
+            role="Stock Market Trader",
+            goal="Find the current stock price of a company.",
+            backstory="An expert stock market trader able to find out the current stock price of a company.",
+            tools=[get_current_stock_price],
             llm=model,
             verbose=True
         )

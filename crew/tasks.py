@@ -12,6 +12,14 @@ class InvestmentTasks():
             Make sure the data you use is as recent as possible.""",
             agent=agent
         )
+
+    def market_trade(self, agent, company):
+        return Task(
+            description=f"""Find the current stock price of {company},
+            
+            {self.__tip_section}""",
+            agent=agent
+        )
     
     def fillings_research(self, agent, company):
         return Task(

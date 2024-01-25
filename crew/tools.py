@@ -6,6 +6,7 @@ copilot_logger = logging.getLogger("copilot")
 copilot_logger.setLevel(logging.ERROR)
 
 from langchain.agents import Tool
+from langchain.tools import tool
 
 from langchain_openai import ChatOpenAI
 
@@ -13,6 +14,10 @@ from langchain_core.runnables import RunnableParallel
 from langchain_core.output_parsers import StrOutputParser
 
 from langchain_community.tools import DuckDuckGoSearchRun
+
+from pydantic.v1 import BaseModel, Field
+
+import yfinance as yf
 
 from prompts import prompt
 
@@ -24,6 +29,21 @@ kay_api_key = os.environ.get("KAY_API_KEY")
 
 
 model = ChatOpenAI(model="gpt-3.5-turbo-16k", openai_api_key=openai_api_key)
+
+
+class CurrentStockPriceInput(BaseModel):
+    symbol: str = Field(..., description="The ticker symbol for the company whose stock price is to be checked.")
+
+
+@tool(args_schema=CurrentStockPriceInput)
+def get_current_stock_price(symbol: str) -> str:
+    """Call this function to get the current stock price of a company."""
+    print(os.environ.get('http_proxy'))
+    print(os.environ.get('https_proxy'))
+    stock_info = yf.Ticker(symbol)
+    current_price = stock_info.info["currentPrice"]
+
+    return f"The current price is USD {current_price}"
 
 
 def handle_kay_errors(status_code: str):
