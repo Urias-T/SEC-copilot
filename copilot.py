@@ -9,8 +9,8 @@ ss = st.session_state
 
 # For debugging and local experimentation
 
-# import langchain
-# langchain.debug=True
+import langchain
+langchain.debug=True
 
 from prompts import prompt, react_prompt
 
@@ -36,7 +36,7 @@ class CurrentStockPriceInput(BaseModel):
 
 @tool(args_schema=CurrentStockPriceInput)
 def get_current_stock_price(symbol: str) -> str:
-    """Call this function to get the current stock price of a company."""
+    """Call this function with only a company's ticker symbol, to get the current stock price for the company."""
     stock_info = yf.Ticker(symbol)
     current_price = stock_info.info["currentPrice"]
 
