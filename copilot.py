@@ -4,6 +4,9 @@ import logging
 copilot_logger = logging.getLogger("copilot")
 copilot_logger.setLevel(logging.ERROR)
 
+console_handler = logging.StreamHandler()
+copilot_logger.addHandler(console_handler)
+
 import streamlit as st
 ss = st.session_state
 

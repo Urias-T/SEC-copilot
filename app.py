@@ -7,6 +7,9 @@ from copilot import get_response
 app_logger = logging.getLogger("app")
 app_logger.setLevel(logging.INFO)
 
+console_handler = logging.StreamHandler()
+app_logger.addHandler(console_handler)
+
 
 st.set_page_config(page_title="SEC Copilot 🤖")
 
