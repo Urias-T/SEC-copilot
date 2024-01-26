@@ -9,8 +9,8 @@ ss = st.session_state
 
 # For debugging and local experimentation
 
-import langchain
-langchain.debug=True
+# import langchain
+# langchain.debug=True
 
 from prompts import prompt, react_prompt
 
