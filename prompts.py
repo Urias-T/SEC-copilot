@@ -20,7 +20,8 @@ You have access to the following tools:
 
 {tools}
 
-If you decide to use the vector store tool, the action input should be the new input from the user.
+If you decide to use the vector store tool, the action input should be the new input from the user. If you decide to use the get_current_stock_price tool, the action input should 
+be only the ticker symbol of the company.
 
 To use a tool, please use the following format:
 

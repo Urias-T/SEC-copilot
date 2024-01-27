@@ -1,5 +1,15 @@
 import requests
 
+import logging
+copilot_logger = logging.getLogger("copilot")
+copilot_logger.setLevel(logging.ERROR)
+
+console_handler = logging.StreamHandler()
+copilot_logger.addHandler(console_handler)
+
+import streamlit as st
+ss = st.session_state
+
 # For debugging and local experimentation
 
 # import langchain
@@ -29,14 +39,25 @@ class CurrentStockPriceInput(BaseModel):
 
 @tool(args_schema=CurrentStockPriceInput)
 def get_current_stock_price(symbol: str) -> str:
-    """Call this function to get the current stock price of a company."""
+    """Call this function with only a company's ticker symbol, to get the current stock price for the company."""
     stock_info = yf.Ticker(symbol)
     current_price = stock_info.info["currentPrice"]
 
     return f"The current price is USD {current_price}"
 
 
+def handle_kay_errors(status_code: str):
+    """Handles errors that occur during call to KAY AI endpoint."""
+    copilot_logger.error(f"Kay AI API returned status code {status_code}")
+    ss.error_message = "An error occured."
+
+
 def get_response(query, configurations, chat_history):
+
+    if "error_message" in ss:
+        del ss["error_message"]
+        query = ss.messages[-1]["message"]
+
 
     model = ChatOpenAI(model="gpt-3.5-turbo-16k", openai_api_key=configurations["openai_api_key"])
     
@@ -62,24 +83,29 @@ def get_response(query, configurations, chat_history):
 
         response = requests.post(url, headers=headers, json=payload)
 
-        context_list = response.json()["contexts"]
+        status_code = response.status_code 
 
-        texts = []
+        if status_code == 200:
+            context_list = response.json()["contexts"]
 
-        for i in range(0, len(context_list)):
-            text = context_list[i]["chunk_embed_text"]
-            texts.append(text)
+            texts = []
+
+            for i in range(0, len(context_list)):
+                text = context_list[i]["chunk_embed_text"]
+                texts.append(text)
 
 
-        chain = RunnableParallel({
-            "question": lambda x: x["question"],
-            "context": lambda x: x["context"]
-        }) | prompt | model | StrOutputParser()
+            chain = RunnableParallel({
+                "question": lambda x: x["question"],
+                "context": lambda x: x["context"]
+            }) | prompt | model | StrOutputParser()
 
-        answer = chain.invoke({"question": query,
-                                "context": texts})
-        
-        return answer
+            answer = chain.invoke({"question": query,
+                                    "context": texts})
+            
+            return answer
+        else:
+            handle_kay_errors(status_code)
 
 
     memory = create_react_agent_memory(chat_history=chat_history)
@@ -108,7 +134,11 @@ def get_response(query, configurations, chat_history):
                                             }
                                         )
 
-    chat_history.append((query, final_output["output"]))
+    if final_output["output"] is not None:
+        chat_history.append((query, final_output["output"]))
+
+    else:
+        pass
 
     return final_output["output"], chat_history
 

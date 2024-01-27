@@ -4,7 +4,12 @@ import streamlit as st
 
 from copilot import get_response
 
-logging.basicConfig(level=logging.INFO)
+app_logger = logging.getLogger("app")
+app_logger.setLevel(logging.INFO)
+
+console_handler = logging.StreamHandler()
+app_logger.addHandler(console_handler)
+
 
 st.set_page_config(page_title="SEC Copilot 🤖")
 
@@ -22,7 +27,7 @@ kay_api_key = os.environ.get("KAY_API_KEY")
 
 
 if not openai_api_key or not kay_api_key:
-    logging.info("Did not find OpenAI and KayAI API keys in environment variables.")
+    app_logger.info("Did not find OpenAI and KayAI API keys in environment variables.")
     with st.sidebar:
         with st.form("config"):
             st.header("Configuration")
@@ -55,7 +60,7 @@ if not openai_api_key or not kay_api_key:
 
 
 if ("OPENAI_API_KEY" in os.environ) and ("KAY_API_KEY" in os.environ):
-    logging.info("Found OpenAI and KAY_API_KEY in environment variables.")
+    app_logger.info("Found OpenAI and KAY_API_KEY in environment variables.")
 
     ss.configurations = {
         "openai_api_key": openai_api_key,
@@ -124,15 +129,25 @@ if "configurations" in ss:
             with st.spinner("Thinking..."):
                 answer, chat_history = get_response(query, ss.configurations, ss.chat_history)
 
-                placeholder = st.empty()
-                full_answer = ''
-                for item in answer:
-                    full_answer += item
-                    placeholder.markdown(full_answer)
-                placeholder.markdown(full_answer)
+                if "error_message" in ss:
+                    st.error(ss.error_message)
 
-                ss.chat_history = chat_history
-                ss.messages.append({"role": "co-pilot", "message": full_answer})
+                    if st.button("Retry"):
+                        del ss["error_message"]
+                        ss.chat_history = ss.chat_history[:-1]
+                        query = ss.messages[-1]["message"]
+                        answer, chat_history = get_response(query, ss.configurations, ss.chat_history)
+
+                if answer is not None:
+                    placeholder = st.empty()
+                    full_answer = ''
+                    for item in answer:
+                        full_answer += item
+                        placeholder.markdown(full_answer)
+                    placeholder.markdown(full_answer)
+
+                    ss.chat_history = chat_history
+                    ss.messages.append({"role": "co-pilot", "message": full_answer})
 
 with st.sidebar:
     with st.sidebar.expander("📬 Contact"):
