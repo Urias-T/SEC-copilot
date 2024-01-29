@@ -17,7 +17,10 @@ class InvestmentTasks():
         return Task(
             description=f"""Find the current stock price of {company},
             
-            {self.__tip_section}""",
+            {self.__tip_section}
+            
+            The input for your tool is only the ticker symbol for a given company. Do not add anything else asides the 
+            ticker symbol to your input.""",
             agent=agent
         )
     
@@ -31,7 +34,12 @@ class InvestmentTasks():
     
     def report_writing(self, agent):
         return Task(
-            description=f"""Summarize the findings from the News Researcher and the Fillings Researcher and use that to
+            description=f"""Review and synthesize all the findings from the News Research Expert, Stock Market Trader and the Fillings Research Expert and use that to
+            write a clear, explanatory report to guide your user's investment decision making. Make sure the current stock price of the company is 
+            emphasized in your report.
+
+            Include a section for the current stock price of the company.
+
             Your final answer must be a full detailed report capturing all the qantitative and qualitative data provided
             and must be easy to read and understand as well.
             

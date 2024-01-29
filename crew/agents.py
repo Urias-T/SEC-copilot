@@ -34,6 +34,7 @@ class InvestmentAgents():
             backstory="An expert stock market trader able to find out the current stock price of a company.",
             tools=[get_current_stock_price],
             llm=model,
+            allow_delegation=False,
             verbose=True
         )
     
@@ -51,8 +52,7 @@ class InvestmentAgents():
     def report_writer(self):
         return Agent(
             role="Report Writing Expert",
-            goal="""Write a report, summarizing the findings on a given company as regards the spending patterns
-            and most recent news headlines.""",
+            goal="""Impress your customers with a robust company analysis.""",
             backstory="""An expert report writer, capable of writing financial articles for investors to highlights 
             key pieces of information to facilitate informed, data-driven investment decisions.""",
             llm=model,

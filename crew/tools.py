@@ -36,11 +36,9 @@ class CurrentStockPriceInput(BaseModel):
 
 
 @tool(args_schema=CurrentStockPriceInput)
-def get_current_stock_price(symbol: str) -> str:
-    """Call this function to get the current stock price of a company."""
-    print(os.environ.get('http_proxy'))
-    print(os.environ.get('https_proxy'))
-    stock_info = yf.Ticker(symbol)
+def get_current_stock_price(ticker: str) -> str:
+    """Call this function with only a company's ticker symbol, to get the current stock price for the company."""
+    stock_info = yf.Ticker(ticker)
     current_price = stock_info.info["currentPrice"]
 
     return f"The current price is USD {current_price}"
