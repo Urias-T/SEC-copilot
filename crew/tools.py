@@ -21,8 +21,8 @@ import yfinance as yf
 
 from prompts import prompt
 
-from dotenv import load_dotenv
-load_dotenv()
+# from dotenv import load_dotenv
+# load_dotenv()
 
 openai_api_key = os.environ.get("OPENAI_API_KEY")
 kay_api_key = os.environ.get("KAY_API_KEY")

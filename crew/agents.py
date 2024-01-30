@@ -2,12 +2,15 @@ import os
 
 from crewai import Agent
 
-from tools import retrieval_tool, search_tool, get_current_stock_price
+from crew.tools import (
+    retrieval_tool, search_tool, 
+    get_current_stock_price
+)
 
 from langchain_openai import ChatOpenAI
 
-from dotenv import load_dotenv
-load_dotenv()
+# from dotenv import load_dotenv
+# load_dotenv()
 
 openai_api_key = os.environ.get("OPENAI_API_KEY")
 kay_api_key = os.environ.get("KAY_API_KEY")

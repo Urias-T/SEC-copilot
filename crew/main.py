@@ -1,10 +1,10 @@
 from crewai import Crew
 
-from agents import InvestmentAgents
-from tasks import InvestmentTasks
+from crew.agents import InvestmentAgents
+from crew.tasks import InvestmentTasks
 
-from dotenv import load_dotenv
-load_dotenv()
+# from dotenv import load_dotenv
+# load_dotenv()
 
 class CopilotCrew:
     def __init__(self, company):
