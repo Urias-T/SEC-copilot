@@ -6,25 +6,20 @@ from streamlit.errors import StreamlitAPIException
 from copilot import get_response
 from app import login
 
-
-st.set_page_config(page_title="SEC Copilot 🤖")
-
-st.title("SEC Copilot 🤖")
-
 ss = st.session_state
 
 github_url = "https://github.com/Urias-T/SEC-copilot"
 twitter_url = "https://twitter.com/mista_triumph"
 linkedin_url = "https://www.linkedin.com/in/triumph-urias/"
 
-try:
-    info_placeholder = login()
+if "configurations" not in ss:
+    try:
+        info_placeholder = login()
 
-except StreamlitAPIException:
-    pass
+    except StreamlitAPIException:
+        pass
 
-if "configurations" in ss:
-    info_placeholder.empty()
+else:
 
     if "messages" not in ss:
         ss.chat_history = []
