@@ -2,10 +2,19 @@ import os
 import logging
 import streamlit as st
 
+st.set_page_config(page_title="SEC Copilot 🤖")
+
+st.title("SEC Copilot 🤖")
+
 ss = st.session_state
 
 app_logger = logging.getLogger("app")
 app_logger.setLevel(logging.INFO)
+
+github_url = "https://github.com/Urias-T/SEC-copilot"
+twitter_url = "https://twitter.com/mista_triumph"
+linkedin_url = "https://www.linkedin.com/in/triumph-urias/"
+
 
 def login():
 
@@ -59,3 +68,15 @@ def login():
     return info_placeholder
 
 login()
+
+
+with st.sidebar:
+    with st.sidebar.expander("📬 Contact"):
+
+        st.write("**Website:**", "[triumphurias.com](https://triumphurias.com)")
+        st.write("**GitHub:**", f"[Urias-T/SEC-copilot]({github_url})")
+        st.write("**Twitter:**", f"[@mista_triumph]({twitter_url})")
+        st.write("**LinkedIn:**", f"{linkedin_url}")
+        st.write("**Mail:**", "triumph@triumphurias.com")
+        st.write("**Created by Triumph Urias**")
+
