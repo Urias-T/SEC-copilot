@@ -1,4 +1,5 @@
 import os
+import streamlit as st
 
 from crewai import Agent
 
@@ -12,10 +13,12 @@ from langchain_openai import ChatOpenAI
 # from dotenv import load_dotenv
 # load_dotenv()
 
-openai_api_key = os.environ.get("OPENAI_API_KEY")
-kay_api_key = os.environ.get("KAY_API_KEY")
+# openai_api_key = os.environ.get("OPENAI_API_KEY")
+# kay_api_key = os.environ.get("KAY_API_KEY")
 
-model = ChatOpenAI(model="gpt-3.5-turbo-16k", openai_api_key=openai_api_key)
+ss = st.session_state
+
+model = ChatOpenAI(model="gpt-3.5-turbo-16k", openai_api_key=ss.configurations["openai_api_key"])
 
 class InvestmentAgents():
 

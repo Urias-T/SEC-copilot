@@ -1,4 +1,5 @@
 import os
+import streamlit as st
 import requests
 
 import logging
@@ -24,11 +25,13 @@ from prompts import prompt
 # from dotenv import load_dotenv
 # load_dotenv()
 
-openai_api_key = os.environ.get("OPENAI_API_KEY")
-kay_api_key = os.environ.get("KAY_API_KEY")
+# openai_api_key = os.environ.get("OPENAI_API_KEY")
+# kay_api_key = os.environ.get("KAY_API_KEY")
+
+ss = st.session_state
 
 
-model = ChatOpenAI(model="gpt-3.5-turbo-16k", openai_api_key=openai_api_key)
+model = ChatOpenAI(model="gpt-3.5-turbo-16k", openai_api_key=ss.configurations["openai_api_key"])
 
 
 class CurrentStockPriceInput(BaseModel):
@@ -62,7 +65,7 @@ def retriever(query):
 
         url = "https://api.kay.ai/retrieve"
 
-        headers = {"API-KEY": kay_api_key}
+        headers = {"API-KEY": ss.configurations["kay_api_key"]}
 
         payload = {
             "query": query,
