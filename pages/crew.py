@@ -29,9 +29,10 @@ else:
 
     company = st.text_input("What company do you want to research?")
     if company:
-        crew = CopilotCrew(company)
-        result = crew.run()
-        st.markdown(result)
+        with st.spinner("Researching..."):
+            crew = CopilotCrew(company)
+            result = crew.run()
+            st.markdown(result)
 
 with st.sidebar:
     with st.sidebar.expander("📬 Contact"):
