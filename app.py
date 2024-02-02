@@ -2,6 +2,10 @@ import os
 import logging
 import streamlit as st
 
+app_logger = logging.getLogger("app")
+app_logger.setLevel(logging.INFO)
+
+
 st.set_page_config(page_title="SEC Copilot 🤖")
 
 st.title("SEC Copilot 🤖")

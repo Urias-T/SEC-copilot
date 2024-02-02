@@ -4,6 +4,9 @@ import logging
 copilot_logger = logging.getLogger("copilot")
 copilot_logger.setLevel(logging.ERROR)
 
+console_handler = logging.StreamHandler()
+copilot_logger.addHandler(console_handler)
+
 import streamlit as st
 ss = st.session_state
 
@@ -36,7 +39,7 @@ class CurrentStockPriceInput(BaseModel):
 
 @tool(args_schema=CurrentStockPriceInput)
 def get_current_stock_price(symbol: str) -> str:
-    """Call this function to get the current stock price of a company."""
+    """Call this function with only a company's ticker symbol, to get the current stock price for the company."""
     stock_info = yf.Ticker(symbol)
     current_price = stock_info.info["currentPrice"]
 
