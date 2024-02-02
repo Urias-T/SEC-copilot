@@ -42,7 +42,11 @@ class CurrentStockPriceInput(BaseModel):
 def get_current_stock_price(ticker: str) -> str:
     """Call this function with only a company's ticker symbol, to get the current stock price for the company."""
     stock_info = yf.Ticker(ticker)
-    current_price = stock_info.info["currentPrice"]
+
+    try:
+        current_price = stock_info.info["currentPrice"]
+    except KeyError:
+        copilot_logger.error(f"{ticker} was passed as ticker and an error occured for the get_current_stock_price tool.")
 
     return f"The current price is USD {current_price}"
 
