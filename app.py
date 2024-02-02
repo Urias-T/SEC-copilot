@@ -5,7 +5,7 @@ import streamlit as st
 from copilot import get_response
 
 app_logger = logging.getLogger("app")
-app_logger.setLevel(logging.INFO)
+app_logger.setLevel(logging.ERROR)
 
 console_handler = logging.StreamHandler()
 app_logger.addHandler(console_handler)
