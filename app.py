@@ -44,7 +44,7 @@ def login():
                     st.warning("The OpenAI API key you've entered is invalid!", icon="⚠️")
                     validated = False
                 else:
-                    st.success("Proceed to enter your query!", icon="👉")
+                    st.success("Proceed to use either the chat or crew options", icon="👈")
                     validated = True
 
                 if validated:
@@ -67,7 +67,11 @@ def login():
 
     return info_placeholder
 
-login()
+if "configurations" not in ss:
+    login()
+
+else:
+    st.markdown("You're already logged in. Use one of either chat or crew in the options.")
 
 
 with st.sidebar:
