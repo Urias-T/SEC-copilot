@@ -28,7 +28,10 @@ class InvestmentTasks():
         return Task(
             description=f"""Find out the spending patterns for {company} in the past three quarters.
             
-            {self.__tip_section}""",
+            {self.__tip_section}
+            
+            The input to your tool is a simple query like: `What is the spending pattern for {company} in the past three quarters.`
+            """,
             agent=agent
         )
     
