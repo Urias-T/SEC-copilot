@@ -52,6 +52,7 @@ class InvestmentAgents():
             to understand patterns in spend over the past three quarters.""",
             tools=[retrieval_tool],
             llm=model,
+            allow_delegation=False,
             verbose=True
         )
     
