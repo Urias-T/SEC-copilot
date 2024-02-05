@@ -7,7 +7,7 @@ class InvestmentTasks():
             description=f"""Collect and summarize news headlines for {company}, paying special
             attention to headlines regarding market sentiment, investor behaviour, upcoming events like earnings, etc. 
             
-            {self.__tip_section}
+            {self.__tip_section()}
             
             Make sure the data you use is as recent as possible.""",
             agent=agent
@@ -17,7 +17,7 @@ class InvestmentTasks():
         return Task(
             description=f"""Find the current stock price of {company},
             
-            {self.__tip_section}
+            {self.__tip_section()}
             
             The input for your tool is only the ticker symbol for a given company. Do not add anything else asides the 
             ticker symbol to your input.""",
@@ -28,7 +28,7 @@ class InvestmentTasks():
         return Task(
             description=f"""Find out the spending patterns for {company} in the past three quarters.
             
-            {self.__tip_section}
+            {self.__tip_section()}
             
             The input to your tool is a simple query like: `What is the spending pattern for {company} in the past three quarters.`
             """,
@@ -46,7 +46,7 @@ class InvestmentTasks():
             Your final answer must be a full detailed report capturing all the qantitative and qualitative data provided
             and must be easy to read and understand as well.
             
-            {self.__tip_section}""",
+            {self.__tip_section()}""",
             agent=agent
         )
     
