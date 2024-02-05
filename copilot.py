@@ -32,6 +32,8 @@ from langchain.agents import Tool, create_react_agent, AgentExecutor
 
 from memory import create_react_agent_memory
 
+from openai._exceptions import RateLimitError
+
 
 class CurrentStockPriceInput(BaseModel):
     symbol: str = Field(..., description="The ticker symbol for the company whose stock price is to be checked.")
@@ -127,18 +129,25 @@ def get_response(query, configurations, chat_history):
 
     agent_executor = AgentExecutor(agent=agent, tools=tools, handle_parsing_errors=True)
 
-    final_output = agent_executor.invoke(
-                                            {
-                                                "input": query,
-                                                "chat_history": memory
-                                            }
-                                        )
+    try:
+        final_output = agent_executor.invoke(
+                                                {
+                                                    "input": query,
+                                                    "chat_history": memory
+                                                }
+                                            )
+        
+        if final_output["output"] is not None:
+            chat_history.append((query, final_output["output"]))
 
-    if final_output["output"] is not None:
-        chat_history.append((query, final_output["output"]))
+        else:
+            pass
 
-    else:
-        pass
+        return final_output["output"], chat_history
 
-    return final_output["output"], chat_history
+    except RateLimitError as e:
+        copilot_logger.error("OpenAI RateLimitError")
+        ss.error_message = f"Your Copilot encountered an OpenAI Rate Limit Error. Please check your \
+                            OpenAI plan and billing details."
+
 
