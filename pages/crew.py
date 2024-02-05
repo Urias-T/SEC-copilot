@@ -32,6 +32,10 @@ else:
         with st.spinner("Researching..."):
             crew = CopilotCrew(company)
             result = crew.run()
+
+            if "error_message" in ss:
+                st.error(ss.error_message)
+
             st.markdown(result)
 
 with st.sidebar:
