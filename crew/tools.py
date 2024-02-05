@@ -45,16 +45,17 @@ def get_current_stock_price(ticker: str) -> str:
 
     try:
         current_price = stock_info.info["currentPrice"]
-    except KeyError:
+        return f"The current price is USD {current_price}"
+    except (KeyError, UnboundLocalError) as e:
         copilot_logger.error(f"{ticker} was passed as ticker and an error occured for the get_current_stock_price tool.")
+        ss.error_message = "An error occured."
 
-    return f"The current price is USD {current_price}"
 
 
 def handle_kay_errors(status_code: str):
     """Handles errors that occur during call to KAY AI endpoint."""
     copilot_logger.error(f"Kay AI API returned status code {status_code}")
-    # ss.error_message = "An error occured."
+    ss.error_message = "An error occured."
 
 
 def retriever(query):
