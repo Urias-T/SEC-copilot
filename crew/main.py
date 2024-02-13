@@ -14,27 +14,27 @@ class CopilotCrew:
         agents = InvestmentAgents()
         tasks = InvestmentTasks()
 
-        news_researcher = agents.news_researcher()
-        market_trader = agents.market_trader()
         fillings_researcher = agents.fillings_researcher()
+        market_trader = agents.market_trader()
+        news_researcher = agents.news_researcher()
         report_writer = agents.report_writer()
 
-        news_research = tasks.news_research(news_researcher, self.company)
-        market_trade = tasks.market_trade(market_trader, self.company)
         fillings_research = tasks.fillings_research(fillings_researcher, self.company)
+        market_trade = tasks.market_trade(market_trader, self.company)
+        news_research = tasks.news_research(news_researcher, self.company)
         report_writing = tasks.report_writing(report_writer)
 
         crew = Crew(
             agents = [
-                news_researcher,
-                market_trader,
                 fillings_researcher,
+                market_trader,
+                news_researcher,
                 report_writer
             ],
             tasks = [
-                news_research,
-                market_trade,
                 fillings_research,
+                market_trade,
+                news_research,
                 report_writing
             ],
             verbose=True

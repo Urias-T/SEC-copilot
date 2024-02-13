@@ -1,6 +1,9 @@
 import os
 import streamlit as st
 
+import langchain
+langchain.debug=True
+
 from crewai import Agent
 
 from crew.tools import (
@@ -22,28 +25,6 @@ model = ChatOpenAI(model="gpt-3.5-turbo-16k", openai_api_key=ss.configurations["
 
 class InvestmentAgents():
 
-    def news_researcher(self):
-        return Agent(
-            role="News Research Expert",
-            goal="Find most recent news headlines that can affect investment decisions.",
-            backstory="""An expert news analyst. Your expertise lies in getting relevant 
-            news articles from the internet on a specific company.""",
-            tools=[search_tool],
-            llm=model,
-            verbose=True
-        )
-
-    def market_trader(self):
-        return Agent(
-            role="Stock Market Trader",
-            goal="Find the current stock price of a company.",
-            backstory="An expert stock market trader able to find out the current stock price of a company.",
-            tools=[get_current_stock_price],
-            llm=model,
-            allow_delegation=False,
-            verbose=True
-        )
-    
     def fillings_researcher(self):
         return Agent(
             role="Fillings Research Expert",
@@ -53,6 +34,28 @@ class InvestmentAgents():
             tools=[retrieval_tool],
             llm=model,
             allow_delegation=False,
+            verbose=True
+        )
+    
+    def market_trader(self):
+        return Agent(
+            role="Stock Price Seeker",
+            goal="Find the current stock price of a company.",
+            backstory="An expert stock market trader able to find out the current stock price of a company.",
+            tools=[get_current_stock_price],
+            llm=model,
+            allow_delegation=False,
+            verbose=True
+        )
+
+    def news_researcher(self):
+        return Agent(
+            role="News Research Expert",
+            goal="Find most recent news headlines that can affect investment decisions.",
+            backstory="""An expert news analyst. Your expertise lies in getting relevant 
+            news articles from the internet on a specific company.""",
+            tools=[search_tool],
+            llm=model,
             verbose=True
         )
     

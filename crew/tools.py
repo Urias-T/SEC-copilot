@@ -109,7 +109,7 @@ retrieval_tool = Tool(
         name="Kay AI Vector Store",
         func=retriever,
         description=("Use this tool when answering questions that relate to a company's SEC filings, financials and/ or spending patterns."),
-        return_direct=True
+        # return_direct=True
     )
 
 
