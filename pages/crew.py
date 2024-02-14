@@ -33,7 +33,7 @@ else:
             crew = CopilotCrew(company)
             result = crew.run()
 
-            if "error_message" in ss:
+            if (result is None) and ("error_message" in ss):
                 st.error(ss.error_message)
 
             st.markdown(result)
