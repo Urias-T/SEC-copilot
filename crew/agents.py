@@ -1,8 +1,8 @@
 import os
 import streamlit as st
 
-import langchain
-langchain.debug=True
+# import langchain
+# langchain.debug=True
 
 from crewai import Agent
 
@@ -34,7 +34,7 @@ class InvestmentAgents():
             tools=[retrieval_tool],
             llm=model,
             allow_delegation=False,
-            verbose=True
+            # verbose=True
         )
     
     def market_trader(self):
@@ -45,7 +45,7 @@ class InvestmentAgents():
             tools=[get_current_stock_price],
             llm=model,
             allow_delegation=False,
-            verbose=True
+            # verbose=True
         )
 
     def news_researcher(self):
@@ -56,7 +56,7 @@ class InvestmentAgents():
             news articles from the internet on a specific company.""",
             tools=[search_tool],
             llm=model,
-            verbose=True
+            # verbose=True
         )
     
     def report_writer(self):
@@ -66,5 +66,5 @@ class InvestmentAgents():
             backstory="""An expert report writer, capable of writing financial articles for investors to highlights 
             key pieces of information to facilitate informed, data-driven investment decisions.""",
             llm=model,
-            verbose=True
+            # verbose=True
         )

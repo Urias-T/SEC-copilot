@@ -6,6 +6,9 @@ from streamlit.errors import StreamlitAPIException
 from copilot import get_response
 from app import login
 
+
+st.title("SEC Copilot Chat 💬")
+
 ss = st.session_state
 
 github_url = "https://github.com/Urias-T/SEC-copilot"

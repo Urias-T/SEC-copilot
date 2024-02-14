@@ -6,7 +6,7 @@ from streamlit.errors import StreamlitAPIException
 ss = st.session_state
 
 
-st.markdown("This is the Crew Page.")
+st.title("SEC Copilot Crew 🧑‍💻")
 
 
 github_url = "https://github.com/Urias-T/SEC-copilot"
