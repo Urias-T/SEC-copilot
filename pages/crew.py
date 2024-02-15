@@ -47,3 +47,5 @@ with st.sidebar:
         st.write("**LinkedIn:**", f"{linkedin_url}")
         st.write("**Mail:**", "triumph@triumphurias.com")
         st.write("**Created by Triumph Urias**")
+
+    st.markdown("*SEC Copilot might display inaccurate information. It is therefore important to verify its responses.*")

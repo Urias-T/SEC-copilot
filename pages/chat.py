@@ -110,3 +110,5 @@ with st.sidebar:
         st.write("**Mail:**", "triumph@triumphurias.com")
         st.write("**Created by Triumph Urias**")
 
+    st.markdown("*SEC Copilot might display inaccurate information. It is therefore important to verify its responses.*")
+
