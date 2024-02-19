@@ -1,4 +1,3 @@
-import os
 import streamlit as st
 import requests
 
@@ -20,7 +19,7 @@ from pydantic.v1 import BaseModel, Field
 
 import yfinance as yf
 
-from prompts import prompt
+from utils.prompts import prompt
 
 # from dotenv import load_dotenv
 # load_dotenv()
