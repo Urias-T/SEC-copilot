@@ -1,4 +1,3 @@
-import os
 import streamlit as st
 
 # import langchain
@@ -6,7 +5,7 @@ import streamlit as st
 
 from crewai import Agent
 
-from crew.tools import (
+from utils.tools import (
     retrieval_tool, search_tool, 
     get_current_stock_price
 )

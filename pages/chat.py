@@ -1,9 +1,7 @@
-import os
-import logging
 import streamlit as st
 
 from streamlit.errors import StreamlitAPIException
-from copilot import get_response
+from chat.main import get_response
 from app import login
 
 
